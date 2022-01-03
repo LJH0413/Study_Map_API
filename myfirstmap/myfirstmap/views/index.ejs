@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
+    />
+    <title>myfirstmap</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script
+      type="text/javascript"
+      src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=k5suxr000w"
+    ></script>
+  </head>
+  <body>
+    <div id="navbar">myfirstmap</div>
+    <div id="infoBox">
+      <div id="infoTitle">현재 날짜</div>
+      <div id="infoContent">2022년 1월 3일</div>
+    </div>
+    <div id="map" style="width: 100%; height: 100vh"></div>
+
+    <script type="text/javascript" src="/data/data.js"></script>
+
+    <script>
+      var mapOptions = {
+        center: new naver.maps.LatLng(37.3595704, 127.105399),
+        zoom: 10,
+      };
+
+      var map = new naver.maps.Map("map", mapOptions);
+
+      // 마커리스트와 인포리스트 변수 선언
+      var markerList = [];
+      var infowindowList = [];
+
+      for (var i in data) {
+        var target = data[i];
+        var latlng = new naver.maps.LatLng(target.lat, target.lng);
+        marker = new naver.maps.Marker({
+          map: map,
+          position: latlng,
+          icon: {
+            content: "<div class=marker></div>",
+            // 아이콘의 중심좌표 변경
+            anchor: new naver.maps.Point(12, 12),
+          },
+        });
+
+        //인포윈도우 띄어주기
+        var content = `<div class=infowindow_wrap>
+            <div class=infowindow_title>${target.title}</div>
+            <div class=infowindow_content>${target.content}</div>
+            <div class=infowindow_date>${target.date}</div>
+          </div>`;
+
+        var infowindow = new naver.maps.InfoWindow({
+          content: content,
+          backgroundColor: "#00ff0000", //투명
+          borderColor: "#00ff0000",
+          anchorSize: new naver.maps.Size(0, 0),
+        });
+
+        // 인포윈도우 클릭 이벤트
+        markerList.push(marker);
+        infowindowList.push(infowindow);
+      }
+
+      // 마커클릭시 이벤트 등록
+      for (var i = 0, ii = markerList.length; i < ii; i++) {
+        naver.maps.Event.addListener(
+          markerList[i],
+          "click",
+          getClickHandler(i)
+        );
+      }
+
+      function getClickHandler(i) {
+        return function () {
+          var marker = markerList[i];
+          var infowindow = infowindowList[i];
+          // 인포윈도우가 있으면 닫고 없으면 띄어줌
+          if (infowindow.getMap()) {
+            infowindow.close();
+          } else {
+            infowindow.open(map, marker);
+          }
+        };
+      }
+    </script>
+  </body>
+</html>
+
+<!-- 원하는 지역의 중심좌표 (위도와 경도)  저장 후 버튼 클릭시 좌표값으로 가져오기-->
+<!-- js switch case 문으로 함수 만드는게 베스트? -->

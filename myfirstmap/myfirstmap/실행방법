@@ -1,0 +1,8 @@
+터미널
+
+1. cd 파일
+2. npm install 패키지 생성
+
+nodemon 서버 실행
+1. sudo nodemon
+2. localhost:3000
