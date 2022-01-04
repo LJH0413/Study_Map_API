@@ -13,6 +13,15 @@
       type="text/javascript"
       src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=k5suxr000w"
     ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=100044f4a474d49788c08102ac33fa21&libraries=services"
+    ></script>
   </head>
   <body>
     <div id="navbar">myfirstmap</div>
@@ -20,6 +29,11 @@
       <div id="infoTitle">현재 날짜</div>
       <div id="infoContent">2022년 1월 3일</div>
     </div>
+    <div id="search">
+      <input id="search_input" placeholder="목적지를 입력해주세요" />
+      <button id="search_button">검색</button>
+    </div>
+    <div id="current">현재위치</div>
     <div id="map" style="width: 100%; height: 100vh"></div>
 
     <script type="text/javascript" src="/data/data.js"></script>
@@ -70,11 +84,19 @@
 
       // 마커클릭시 이벤트 등록
       for (var i = 0, ii = markerList.length; i < ii; i++) {
+        naver.maps.Event.addListener(map, "click", ClickMap(i));
         naver.maps.Event.addListener(
           markerList[i],
           "click",
           getClickHandler(i)
         );
+      }
+
+      function ClickMap(i) {
+        return function () {
+          var infowindow = infowindowList[i];
+          infowindow.close();
+        };
       }
 
       function getClickHandler(i) {
@@ -88,6 +110,79 @@
             infowindow.open(map, marker);
           }
         };
+      }
+
+      let currentUse = true;
+
+      $("#current").click(() => {
+        if ("geolocation" in navigator) {
+          navigator.geolocation.getCurrentPosition(function (position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            const latlng = new naver.maps.LatLng(lat, lng);
+            if (currentUse) {
+              marker = new naver.maps.Marker({
+                map: map,
+                position: latlng,
+                icon: {
+                  // 빨간색 마커
+                  content:
+                    "<img class=pulse draggable=false unselectable=on src=https://myfirstmap.s3.ap-northeast-2.amazonaws.com/circle.png>",
+                  anchor: new naver.maps.Point(11, 11),
+                },
+              });
+              currentUse = false;
+            }
+            map.setZoom(14, false);
+            map.panTo(latlng);
+          });
+        } else {
+          alert("위치정보 사용 불가능");
+        }
+      });
+
+      let ps = new kakao.maps.services.Places();
+      let search_arr = [];
+
+      // 검색 클릭시 해당 좌표로 이동
+      $("#search_input").on("keydown", function (e) {
+        if (e.keyCode == 13) {
+          let content = $(this).val(); //검색한게 cotent 안에 담김
+          ps.keywordSearch(content, placeSearchCB);
+        }
+      });
+
+      $("#search_button").on("click", function (e) {
+        let content = $("#search_input").val();
+        ps.keywordSearch(content, placeSearchCB);
+      });
+
+      function placeSearchCB(data, status, pagination) {
+        if (status === kakao.maps.services.Status.OK) {
+          let target = data[0]; //검색 값의 가장 첫번쨰
+          const lat = target.y; //위도
+          const lng = target.x; //경도
+          const latlng = new naver.maps.LatLng(lat, lng);
+          marker = new naver.maps.Marker({
+            map: map,
+            postion: latlng,
+            icon: {
+              content: "<div class=marker></div>",
+              anchor: new naver.maps.Point(12, 12),
+            },
+          });
+          if (search_arr.length == 0) {
+            search_arr.push(marker);
+          } else {
+            search_arr.push(marker);
+            let pre_marker = search_arr.splice(0, 1);
+            pre_marker[0].setMap(null);
+          }
+          map.setZoom(14, false);
+          map.panTo(latlng);
+        } else {
+          alert("검색 결과가 없습니다.");
+        }
       }
     </script>
   </body>

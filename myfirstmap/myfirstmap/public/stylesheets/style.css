@@ -66,3 +66,82 @@ body {
   font-size: 13px;
   font-weight: normal;
 }
+
+#current {
+  position: absolute;
+  top: 180px;
+  left: 20px;
+  z-index: 10000;
+  background: white;
+  padding: 15px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bolder;
+}
+
+.pulse {
+  display: block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 0 rgb(255, 0, 0);
+  animation: pulse 1.7s infinite;
+}
+
+#search {
+  position: absolute;
+  top: 100px;
+  left: 160px;
+  padding: 15px;
+  z-index: 10000;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  text-align: center;
+}
+
+#search_input {
+  border: none;
+}
+
+#search_input:focus {
+  outline: none;
+}
+
+/* 시간대별 애니메이션   */
+/* moz - firefox */
+/* webkit - chrome */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(204, 49, 44, 0.4);
+    -moz-box-shadow: 0 0 0 0 rgba(204, 49, 44, 0.4);
+  }
+
+  70% {
+    box-shadow: 0 0 0 20px rgba(204, 49, 44, 0);
+    -moz-box-shadow: 0 0 0 20px rgba(204, 49, 44, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(204, 49, 44, 0);
+  }
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(204, 49, 44, 0.4);
+    -moz-box-shadow: 0 0 0 0 rgba(204, 49, 44, 0.4);
+  }
+
+  70% {
+    box-shadow: 0 0 0 20px rgba(204, 49, 44, 0);
+    -moz-box-shadow: 0 0 0 20px rgba(204, 49, 44, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(204, 49, 44, 0);
+  }
+}
