@@ -1,0 +1,72 @@
+body {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+a {
+  color: #00b7ff;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden; /* 내용이 넘칠 때 숨김 */
+  background: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  padding: 14px 16px;
+}
+
+#nav {
+  position: fixed;
+  z-index: 10000;
+  width: 100%;
+  height: 45px;
+}
+
+.active {
+  background-color: green;
+}
+
+li a:hover:not(.active) {
+  /* firstmap 만 색 바뀌기 */
+  background-color: #111;
+}
+
+/* 마커 커스터마이징 */
+.marker {
+  width: 15px;
+  height: 15px;
+  background: gray;
+  border: 1px solid black;
+  border-radius: 50%;
+  z-index: 10000;
+}
+
+/* 인포윈도우 스타일링 */
+.infowindow_wrap {
+  background: white;
+  padding: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.infowindow_title {
+  font-size: 15px;
+  font-weight: bolder;
+}
+
+.infowindow_address {
+  font-size: 13px;
+  font-weight: normal;
+}
