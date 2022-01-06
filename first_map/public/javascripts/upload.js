@@ -79,7 +79,7 @@ function displayPlaces(data) {
       infowindow.close();
     });
 
-    el.onClick = function () {
+    el.onclick = function () {
       displayInfowindow(marker, title, address, lat, lng);
     };
 
@@ -93,7 +93,7 @@ function displayInfowindow(marker, title, address, lat, lng) {
     <div style="padding:25px">
       ${title}<br>
       ${address}<br>
-      <button onclick="onSubmit('${title}', '${address}', ${lat}, ${lng});">등록</button>
+      <button onClick="onSubmit('${title}', '${address}', ${lat}, ${lng});">등록</button>
     </div>
   `;
   map.panTo(marker.getPosition());

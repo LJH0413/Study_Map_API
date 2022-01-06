@@ -47,7 +47,7 @@ li a:hover:not(.active) {
 .marker {
   width: 15px;
   height: 15px;
-  background: gray;
+  background: #ff3eb5;
   border: 1px solid black;
   border-radius: 50%;
   z-index: 10000;
@@ -69,4 +69,40 @@ li a:hover:not(.active) {
 .infowindow_address {
   font-size: 13px;
   font-weight: normal;
+}
+
+.cluster1 {
+  width: 25px;
+  height: 25px;
+  line-height: 26px;
+  font-size: 10px;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  background: rgba(255, 149, 79, 0.7);
+}
+
+.cluster2 {
+  width: 30px;
+  height: 30px;
+  line-height: 31px;
+  font-size: 10px;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  background: rgba(255, 149, 79, 0.7);
+}
+
+.cluster3 {
+  width: 35px;
+  height: 35px;
+  line-height: 36px;
+  font-size: 10px;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  background: rgba(255, 149, 79, 0.7);
 }

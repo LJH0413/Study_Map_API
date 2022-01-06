@@ -1,4 +1,3 @@
-const e = require("express");
 var express = require("express");
 var router = express.Router();
 const locationModel = require("../model/location");
@@ -12,10 +11,19 @@ router.get("/upload", (req, res, next) => {
   res.render("upload");
 });
 
+// get테스트
 router.get("/test", (req, res, next) => {
-  console.log("test test");
+  console.log("test 완료");
   res.json({
-    message: "response 완료",
+    message: "get 완료!",
+  });
+});
+// post 테스트
+router.post("/test2", (req, res, next) => {
+  const test = req.body.test;
+  console.log(test);
+  res.json({
+    message: "post 완료!",
   });
 });
 
@@ -26,8 +34,6 @@ router.post("/location", (req, res, next) => {
   location.address = address;
   location.lat = lat;
   location.lng = lng;
-
-  //몽고 디비에 저장
   location
     .save()
     .then((result) => {
@@ -49,7 +55,6 @@ router.get("/location", (req, res, next) => {
   locationModel
     .find({}, { _id: 0, __v: 0 })
     .then((result) => {
-      console.log(result);
       res.json({
         message: "success",
         data: result,
